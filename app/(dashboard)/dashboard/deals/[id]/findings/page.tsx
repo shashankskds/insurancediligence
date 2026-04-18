@@ -491,10 +491,10 @@ export default function FindingsPage({ params }: PageProps) {
         </CardContent>
       </Card>
 
-      {/* Findings List */}
-      <div className="grid gap-4 lg:grid-cols-2">
+      {/* Findings List — items-start so the detail column can shrink; sticky pins the right panel while the list scrolls */}
+      <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
         {/* Findings Column */}
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {filteredFindings.length === 0 ? (
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
@@ -610,8 +610,8 @@ export default function FindingsPage({ params }: PageProps) {
           )}
         </div>
 
-        {/* Detail Panel */}
-        <div className="lg:sticky lg:top-6 space-y-4">
+        {/* Detail Panel — sticky within dashboard main scroll; max-height avoids unusable tall panels */}
+        <div className="w-full space-y-4 lg:sticky lg:top-6 lg:z-10 lg:max-h-[min(calc(100vh-7rem),calc(100dvh-7rem))] lg:overflow-y-auto lg:overscroll-contain lg:self-start">
           {selectedFinding ? (
             <>
               <Card>
