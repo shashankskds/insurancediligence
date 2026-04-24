@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useCallback, useState } from 'react'
+import { use, useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { ArrowLeft, Upload, Search, Filter, Grid, List, FileText } from 'lucide-react'
@@ -55,6 +55,20 @@ export default function DocumentsPage({ params }: PageProps) {
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false)
   const [viewingDocument, setViewingDocument] = useState<string | null>(null)
   const [aiBusyDocId, setAiBusyDocId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const fromQuery = params.get('upload') === '1'
+    const fromHash = window.location.hash === '#upload'
+    if (!fromQuery && !fromHash) return
+    requestAnimationFrame(() => {
+      document.getElementById('deal-upload')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+    if (fromQuery) {
+      setUploadDialogOpen(true)
+    }
+  }, [dealId])
 
   const deal = getDeal(dealId)
   const documents = getDocumentsByDeal(dealId)
@@ -254,29 +268,57 @@ export default function DocumentsPage({ params }: PageProps) {
             <p className="text-muted-foreground">{deal.name}</p>
           </div>
         </div>
-        <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="gap-2">
-              <Upload className="h-4 w-4" />
-              Upload Documents
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Upload Documents</DialogTitle>
-              <DialogDescription>
-                Upload insurance diligence files (PDF, Word, Excel, or EML). PHI / non-PHI is tagged at intake.
-              </DialogDescription>
-            </DialogHeader>
-            <DocumentUploader 
-              dealId={dealId}
-              onUploadComplete={() => {
-                // Keep dialog open for multiple uploads
-              }}
-            />
-          </DialogContent>
-        </Dialog>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-2"
+            onClick={() => {
+              document.getElementById('deal-upload')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }}
+          >
+            <Upload className="h-4 w-4" />
+            On-page upload
+          </Button>
+          <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="secondary" className="gap-2">
+                <Upload className="h-4 w-4" />
+                Upload in window
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>Upload documents</DialogTitle>
+                <DialogDescription>
+                  Same uploader as below — use this if you prefer a floating panel. PDF, Word, Excel, or EML. PHI tagged at intake.
+                </DialogDescription>
+              </DialogHeader>
+              <DocumentUploader
+                dealId={dealId}
+                onUploadComplete={() => {
+                  // Keep dialog open for multiple uploads
+                }}
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
+
+      <Card id="deal-upload" className="scroll-mt-24 border-primary/20">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Upload className="h-4 w-4" />
+            Upload files to this deal
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Drag and drop, <strong>Choose files</strong>, or use the format shortcuts — all open your device file picker (accepted types enforced).
+          </p>
+        </CardHeader>
+        <CardContent>
+          <DocumentUploader dealId={dealId} />
+        </CardContent>
+      </Card>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2 border-dashed">
@@ -400,9 +442,18 @@ export default function DocumentsPage({ params }: PageProps) {
                 : 'Upload documents to get started'}
             </p>
             {!search && categoryFilter === 'all' && (
-              <Button onClick={() => setUploadDialogOpen(true)}>
-                Upload Documents
-              </Button>
+              <div className="flex flex-wrap gap-2 justify-center">
+                <Button
+                  onClick={() => {
+                    document.getElementById('deal-upload')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }}
+                >
+                  Go to upload panel
+                </Button>
+                <Button variant="outline" onClick={() => setUploadDialogOpen(true)}>
+                  Upload in window
+                </Button>
+              </div>
             )}
           </CardContent>
         </Card>

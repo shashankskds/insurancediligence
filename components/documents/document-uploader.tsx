@@ -122,7 +122,7 @@ export function DocumentUploader({ dealId, onUploadComplete }: DocumentUploaderP
           category: a.category,
           status: 'ready',
           uploadedBy: currentUser.id,
-          blobUrl: `/demo/${a.type === 'pdf' ? 'attachment.pdf' : 'attachment.xlsx'}`,
+          blobUrl: `/demo/${a.type === 'pdf' ? 'sample.pdf' : 'sample.xlsx'}`,
           fileSize: 125000,
           pageCount: a.type === 'pdf' ? 4 : 2,
           ocrProcessed: false,
@@ -168,7 +168,7 @@ export function DocumentUploader({ dealId, onUploadComplete }: DocumentUploaderP
     })
   }, [dealId, currentUser])
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     accept: ACCEPTED_TYPES,
     maxSize: MAX_FILE_SIZE,
@@ -238,9 +238,50 @@ export function DocumentUploader({ dealId, onUploadComplete }: DocumentUploaderP
           {isDragActive ? 'Drop files here' : 'Drag & drop files here'}
         </p>
         <p className="text-xs text-muted-foreground mb-3">
-          or click to browse
+          or choose files from your device
         </p>
-        <p className="text-xs text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            className="gap-2"
+            onClick={(e) => {
+              e.stopPropagation()
+              open()
+            }}
+          >
+            <Upload className="h-4 w-4" />
+            Choose files
+          </Button>
+          <span className="text-xs text-muted-foreground hidden sm:inline">or pick a type (same file picker)</span>
+        </div>
+        <div className="flex flex-wrap justify-center gap-2 mt-4 max-w-md mx-auto">
+          {(
+            [
+              { label: 'PDF', hint: '.pdf' },
+              { label: 'Word', hint: '.doc / .docx' },
+              { label: 'Excel', hint: '.xls / .xlsx' },
+              { label: 'Email', hint: '.eml' },
+            ] as const
+          ).map(({ label, hint }) => (
+            <Button
+              key={label}
+              type="button"
+              variant="outline"
+              size="sm"
+              className="text-xs h-8"
+              onClick={(e) => {
+                e.stopPropagation()
+                open()
+              }}
+              title={`Add ${hint} — opens your device file picker`}
+            >
+              {label}
+              <span className="text-muted-foreground font-normal ml-1">{hint}</span>
+            </Button>
+          ))}
+        </div>
+        <p className="text-xs text-muted-foreground mt-3">
           Supported: PDF, Word, Excel, and EML (RFC822). EML packages simulate attachment extraction in this demo. Max 50MB.
         </p>
       </div>

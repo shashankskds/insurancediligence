@@ -25,6 +25,7 @@ import { useAppStore } from '@/lib/store'
 import { DEAL_PHASES, DOCUMENT_CATEGORIES, type DealPhase } from '@/lib/types'
 import { formatDate } from '@/lib/date-utils'
 import { toast } from 'sonner'
+import { downloadDealSummaryDocx, downloadDealSummaryXlsx } from '@/lib/demo/report-export'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -40,6 +41,7 @@ export default function ReportPage({ params }: PageProps) {
     getDRLByDeal,
     currentUser,
     getActivityByDeal,
+    logActivity,
   } = useAppStore()
   
   const [exporting, setExporting] = useState<'pdf' | 'docx' | 'xlsx' | 'pptx' | null>(null)
@@ -93,12 +95,47 @@ export default function ReportPage({ params }: PageProps) {
       return
     }
     setExporting(format)
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    const label = format === 'xlsx' ? 'Excel' : format === 'pptx' ? 'PowerPoint' : format.toUpperCase()
-    toast.success(`${label} export queued`, {
-      description: 'Demo: a timestamped file would download and an audit event would be recorded.',
-    })
-    setExporting(null)
+    try {
+      if (format === 'docx') {
+        await downloadDealSummaryDocx({ deal, findings, extractions })
+        toast.success('DOCX downloaded', { description: 'Summary built from current deal data (demo).' })
+        if (currentUser) {
+          logActivity({
+            dealId,
+            userId: currentUser.id,
+            action: 'exported',
+            details: 'Downloaded diligence summary DOCX',
+            entityType: 'deal',
+            entityId: dealId,
+          })
+        }
+      } else if (format === 'xlsx') {
+        downloadDealSummaryXlsx({ deal, findings, extractions })
+        toast.success('Excel downloaded', { description: 'Summary, findings, and extractions sheets (demo).' })
+        if (currentUser) {
+          logActivity({
+            dealId,
+            userId: currentUser.id,
+            action: 'exported',
+            details: 'Downloaded diligence summary Excel',
+            entityType: 'deal',
+            entityId: dealId,
+          })
+        }
+      } else if (format === 'pdf') {
+        toast.message('PDF not generated in demo', {
+          description: 'Use DOCX or Excel for a real download in this build.',
+        })
+      } else {
+        toast.message('PowerPoint not generated in demo', {
+          description: 'Slide export can be added later; deck narrative only.',
+        })
+      }
+    } catch {
+      toast.error('Export failed', { description: 'Try again or use a different format.' })
+    } finally {
+      setExporting(null)
+    }
   }
 
   const handleAuditExport = () => {

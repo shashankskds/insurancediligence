@@ -19,6 +19,10 @@ interface AppState {
   findings: Finding[]
   drlItems: DRLItem[]
   activityLogs: ActivityLog[]
+
+  /** Demo UI: “training mode” called out in Workbench v0.2 (E6) — no backend behavior */
+  demoTrainingMode: boolean
+  setDemoTrainingMode: (value: boolean) => void
   
   // Auth actions
   login: (email: string, password: string) => User | null
@@ -85,6 +89,9 @@ export const useAppStore = create<AppState>()(
       findings: [],
       drlItems: [],
       activityLogs: [],
+      demoTrainingMode: false,
+
+      setDemoTrainingMode: (value) => set({ demoTrainingMode: value }),
       
       // Auth
       login: (email, password) => {
@@ -267,20 +274,24 @@ export const useAppStore = create<AppState>()(
       
       getActivityByDeal: (dealId) => get().activityLogs.filter(a => a.dealId === dealId),
       
-      // Demo data
+      // Demo data — seed when empty, or repair when core demo deal exists but documents were lost (stale persist)
       initializeDemoData: () => {
         const state = get()
-        if (state.deals.length === 0) {
-          const demoData = generateDemoData()
-          set({
-            deals: demoData.deals,
-            documents: demoData.documents,
-            extractions: demoData.extractions,
-            findings: demoData.findings,
-            drlItems: demoData.drlItems,
-            activityLogs: demoData.activityLogs,
-          })
-        }
+        const hasDeal1 = state.deals.some((d) => d.id === 'deal-1')
+        const hasDoc1 = state.documents.some((d) => d.id === 'doc-1')
+        const needsSeed = state.deals.length === 0 || (hasDeal1 && !hasDoc1)
+
+        if (!needsSeed) return
+
+        const demoData = generateDemoData()
+        set({
+          deals: demoData.deals,
+          documents: demoData.documents,
+          extractions: demoData.extractions,
+          findings: demoData.findings,
+          drlItems: demoData.drlItems,
+          activityLogs: demoData.activityLogs,
+        })
       },
       
       resetStore: () => {
@@ -292,11 +303,12 @@ export const useAppStore = create<AppState>()(
           findings: [],
           drlItems: [],
           activityLogs: [],
+          demoTrainingMode: false,
         })
       },
     }),
     {
-      name: 'hauser-dd-store-v2',
+      name: 'hauser-dd-store-v3',
       partialize: (state) => ({
         currentUser: state.currentUser,
         deals: state.deals,
@@ -305,6 +317,7 @@ export const useAppStore = create<AppState>()(
         findings: state.findings,
         drlItems: state.drlItems,
         activityLogs: state.activityLogs,
+        demoTrainingMode: state.demoTrainingMode,
       }),
     }
   )

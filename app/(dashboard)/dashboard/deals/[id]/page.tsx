@@ -11,9 +11,12 @@ import {
   ClipboardList,
   FileOutput,
   Calendar,
+  CalendarRange,
+  Radar,
   Building2,
   DollarSign,
   Users,
+  Upload,
   MoreHorizontal,
   type LucideIcon,
 } from 'lucide-react'
@@ -109,14 +112,17 @@ export default function DealWorkspacePage({ params }: PageProps) {
     { href: `/dashboard/deals/${id}/extractions`, label: 'Raw AI extractions', icon: Brain, count: pendingExtractions, highlight: pendingExtractions > 0, description: extractionBlurb },
     { href: `/dashboard/deals/${id}/findings`, label: 'Validated findings', icon: AlertTriangle, count: openFindings, highlight: criticalFindings > 0, description: findingsBlurb },
     { href: `/dashboard/deals/${id}/drl`, label: 'DRL tracker', icon: ClipboardList, count: `${drlProgress}%`, description: 'Requested vs received vs complete (DRL completion)' },
+    { href: `/dashboard/deals/${id}/first-100-days`, label: 'First 100 days', icon: CalendarRange, description: 'Post-close action plan outline (demo)' },
+    { href: `/dashboard/deals/${id}/rules-trace`, label: 'Rule trace', icon: Radar, description: 'Rule-firing log aligned to deck E8 (demo)' },
     { href: `/dashboard/deals/${id}/report`, label: 'Report', icon: FileOutput, description: 'Team Lead approval, versions, and audit export' },
   ]
+  const tail = ['/first-100-days', '/rules-trace', '/report'] as const
   const order =
     practiceLine === 'pc'
-      ? ['/documents', '/drl', '/extractions', '/findings', '/report']
+      ? ['/documents', '/drl', '/extractions', '/findings', ...tail]
       : practiceLine === 'benefits'
-        ? ['/documents', '/extractions', '/findings', '/drl', '/report']
-        : ['/documents', '/extractions', '/findings', '/drl', '/report']
+        ? ['/documents', '/extractions', '/findings', '/drl', ...tail]
+        : ['/documents', '/extractions', '/findings', '/drl', ...tail]
   const workspaceLinks = order.map((suffix) => {
     const found = workspaceLinkDefs.find((l) => l.href.endsWith(suffix))
     return found!
@@ -314,6 +320,29 @@ export default function DealWorkspacePage({ params }: PageProps) {
           </CardContent>
         </Card>
       )}
+
+      <Card className="border-primary/15 bg-primary/5">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Upload className="h-4 w-4" />
+            Document intake
+          </CardTitle>
+          <CardDescription>
+            Add diligence files from your machine (VDR download → upload). On-page drop zone or floating window.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-2">
+          <Button asChild>
+            <Link href={`/dashboard/deals/${id}/documents#upload`}>Open upload panel</Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href={`/dashboard/deals/${id}/documents?upload=1`}>Upload + open window</Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href={`/dashboard/deals/${id}/documents`}>All documents</Link>
+          </Button>
+        </CardContent>
+      </Card>
 
       {/* DRL completion */}
       <Card>

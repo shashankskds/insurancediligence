@@ -2,7 +2,7 @@
 
 import { use, useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Search, ClipboardList, CheckCircle2, Clock, AlertCircle, FileX } from 'lucide-react'
+import { ArrowLeft, Search, ClipboardList, CheckCircle2, Clock, AlertCircle, FileX, Download } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,6 +25,8 @@ import {
 } from '@/components/ui/table'
 import { useAppStore } from '@/lib/store'
 import { DOCUMENT_CATEGORIES, type DRLStatus, type DocumentCategory } from '@/lib/types'
+import { downloadDrlAsXlsx } from '@/lib/demo/drl-export'
+import { toast } from 'sonner'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -139,7 +141,7 @@ export default function DRLPage({ params }: PageProps) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           <Link href={`/dashboard/deals/${dealId}`}>
             <Button variant="ghost" size="icon">
@@ -151,6 +153,18 @@ export default function DRLPage({ params }: PageProps) {
             <p className="text-muted-foreground">{deal.name}</p>
           </div>
         </div>
+        <Button
+          type="button"
+          variant="outline"
+          className="gap-2 shrink-0"
+          onClick={() => {
+            downloadDrlAsXlsx(deal.name, drlItems)
+            toast.success('DRL exported', { description: 'Excel file downloaded (demo).' })
+          }}
+        >
+          <Download className="h-4 w-4" />
+          Export Excel
+        </Button>
       </div>
 
       <Card className="border-dashed">
