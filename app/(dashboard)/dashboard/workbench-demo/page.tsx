@@ -6,7 +6,6 @@ import {
   Target,
   Shield,
   FileSpreadsheet,
-  GraduationCap,
   ArrowRight,
   CheckCircle2,
   Circle,
@@ -15,12 +14,10 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Switch } from '@/components/ui/switch'
-import { Label } from '@/components/ui/label'
 import { useAppStore } from '@/lib/store'
 
 export default function WorkbenchDemoPage() {
-  const { currentUser, demoTrainingMode, setDemoTrainingMode, getDealsByUser } = useAppStore()
+  const { currentUser, getDealsByUser } = useAppStore()
   const deals = currentUser ? getDealsByUser(currentUser.id) : []
 
   return (
@@ -32,8 +29,8 @@ export default function WorkbenchDemoPage() {
         </div>
         <h2 className="text-2xl font-bold">AI diligence workbench</h2>
         <p className="text-muted-foreground max-w-2xl">
-          Surfaces Phase 1 concepts from the Workbench narrative: value gates, training mode, benchmarks, and
-          rule-trace (illustrative). Open any deal for per-engagement artifacts.
+          In-app demo hub: value checkpoints, benchmark stubs, rule trace, uploads, and exports. Open any deal for
+          per-engagement pages.
         </p>
       </div>
 
@@ -41,32 +38,10 @@ export default function WorkbenchDemoPage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
-              <GraduationCap className="h-4 w-4" />
-              Training mode (E6 demo)
-            </CardTitle>
-            <CardDescription>
-              When on, the UI can label AI suggestions as training-only (full behavior ships with admin rule UI).
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-between gap-4">
-            <Label htmlFor="training-toggle" className="text-sm cursor-pointer">
-              {demoTrainingMode ? 'Training mode on' : 'Training mode off'}
-            </Label>
-            <Switch
-              id="training-toggle"
-              checked={demoTrainingMode}
-              onCheckedChange={setDemoTrainingMode}
-            />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
               <Target className="h-4 w-4" />
-              Value gates (M2 / M3)
+              Value checkpoints
             </CardTitle>
-            <CardDescription>Deck milestones — checklist for stakeholder walkthroughs.</CardDescription>
+            <CardDescription>Illustrative rollout gates for walkthroughs — not tied to live metrics.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div className="flex gap-2">
@@ -74,7 +49,7 @@ export default function WorkbenchDemoPage() {
               <div>
                 <p className="font-medium">Gate 1 — Research reduction (~week 8)</p>
                 <p className="text-muted-foreground text-xs">
-                  Workspace, upload, DRL population, P&C extraction with citations, analyst accept/edit/reject.
+                  Workspace, upload, DRL population, P&amp;C extraction with citations, analyst accept/edit/reject.
                 </p>
               </div>
             </div>
@@ -83,7 +58,7 @@ export default function WorkbenchDemoPage() {
               <div>
                 <p className="font-medium">Gate 2 — Draft report (~week 12)</p>
                 <p className="text-muted-foreground text-xs">
-                  Benefits rules, benchmarking, draft DD from validated findings, shadow deal comparison.
+                  Benefits rules, benchmarking, draft summary from validated findings, shadow comparison.
                 </p>
               </div>
             </div>
@@ -96,7 +71,7 @@ export default function WorkbenchDemoPage() {
               <Shield className="h-4 w-4" />
               Benchmarks (EB demo)
             </CardTitle>
-            <CardDescription>Illustrative data sources named in the deck — not live feeds.</CardDescription>
+            <CardDescription>Placeholder labels for external benchmarks — not live feeds.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             <Badge variant="outline">Mercer 2024 (stub)</Badge>
@@ -128,7 +103,7 @@ export default function WorkbenchDemoPage() {
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <Upload className="h-4 w-4" />
-              Upload intake (E1)
+              Upload intake
             </CardTitle>
             <CardDescription>
               Every deal has an <strong>on-page upload card</strong> (drag / choose files / format shortcuts) plus an
@@ -157,8 +132,8 @@ export default function WorkbenchDemoPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Deals — open rule trace or First 100 Days</CardTitle>
-          <CardDescription>Per-deal demo pages mirror Layer 4–5 artifacts in the deck.</CardDescription>
+          <CardTitle className="text-base">Deals — rule trace or First 100 days</CardTitle>
+          <CardDescription>Per-deal demo pages for traceability and post-close planning.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           {deals.length === 0 ? (

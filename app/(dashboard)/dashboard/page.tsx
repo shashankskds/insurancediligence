@@ -11,14 +11,11 @@ import {
   FileWarning,
   Plus,
   Sparkles,
-  GraduationCap,
 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
-import { Switch } from '@/components/ui/switch'
-import { Label } from '@/components/ui/label'
 import { useAppStore } from '@/lib/store'
 import { DEAL_PHASES, type DealPhase } from '@/lib/types'
 
@@ -30,8 +27,6 @@ export default function DashboardPage() {
     findings,
     drlItems,
     getDealsByUser,
-    demoTrainingMode,
-    setDemoTrainingMode,
   } = useAppStore()
   
   const userDeals = currentUser ? getDealsByUser(currentUser.id) : []
@@ -159,29 +154,21 @@ export default function DashboardPage() {
               AI diligence workbench (demo)
             </CardTitle>
             <CardDescription>
-              Walkthrough hub: value gates, training mode, benchmarks, and links to deal-level rule trace &amp; First
-              100 days.
+              Walkthrough hub: checkpoints, benchmark stubs, and links to deal-level rule trace and First 100 days.
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <CardContent>
             <Button asChild>
               <Link href="/dashboard/workbench-demo" className="gap-2">
                 Open workbench demo
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <div className="flex items-center gap-3 rounded-lg border border-border bg-background/80 px-3 py-2">
-              <GraduationCap className="h-4 w-4 text-muted-foreground shrink-0" />
-              <Label htmlFor="dash-training" className="text-sm cursor-pointer">
-                Training mode
-              </Label>
-              <Switch id="dash-training" checked={demoTrainingMode} onCheckedChange={setDemoTrainingMode} />
-            </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">EB benchmarks (deck — demo)</CardTitle>
+            <CardTitle className="text-base">EB benchmarks (demo)</CardTitle>
             <CardDescription>Labels only; no live Mercer / KFF / CMS feeds in this build.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">

@@ -113,7 +113,7 @@ export default function DealWorkspacePage({ params }: PageProps) {
     { href: `/dashboard/deals/${id}/findings`, label: 'Validated findings', icon: AlertTriangle, count: openFindings, highlight: criticalFindings > 0, description: findingsBlurb },
     { href: `/dashboard/deals/${id}/drl`, label: 'DRL tracker', icon: ClipboardList, count: `${drlProgress}%`, description: 'Requested vs received vs complete (DRL completion)' },
     { href: `/dashboard/deals/${id}/first-100-days`, label: 'First 100 days', icon: CalendarRange, description: 'Post-close action plan outline (demo)' },
-    { href: `/dashboard/deals/${id}/rules-trace`, label: 'Rule trace', icon: Radar, description: 'Rule-firing log aligned to deck E8 (demo)' },
+    { href: `/dashboard/deals/${id}/rules-trace`, label: 'Rule trace', icon: Radar, description: 'Illustrative rule-firing log for this deal (demo)' },
     { href: `/dashboard/deals/${id}/report`, label: 'Report', icon: FileOutput, description: 'Team Lead approval, versions, and audit export' },
   ]
   const tail = ['/first-100-days', '/rules-trace', '/report'] as const

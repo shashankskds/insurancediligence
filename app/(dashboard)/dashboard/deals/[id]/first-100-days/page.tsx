@@ -2,7 +2,7 @@
 
 import { use } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, CalendarRange, CheckCircle2, CircleDot } from 'lucide-react'
+import { ArrowLeft, CalendarRange, CheckCircle2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -44,7 +44,7 @@ const PHASES = [
 
 export default function First100DaysPage({ params }: PageProps) {
   const { id: dealId } = use(params)
-  const { getDeal, demoTrainingMode } = useAppStore()
+  const { getDeal } = useAppStore()
   const deal = getDeal(dealId)
 
   if (!deal) {
@@ -72,12 +72,6 @@ export default function First100DaysPage({ params }: PageProps) {
           <div className="flex items-center gap-2 flex-wrap">
             <h2 className="text-2xl font-bold">First 100 days</h2>
             <Badge variant="outline">Demo plan</Badge>
-            {demoTrainingMode && (
-              <Badge variant="secondary" className="gap-1">
-                <CircleDot className="h-3 w-3" />
-                Training mode
-              </Badge>
-            )}
           </div>
           <p className="text-muted-foreground">{deal.name} · {deal.targetCompany}</p>
         </div>
@@ -87,7 +81,7 @@ export default function First100DaysPage({ params }: PageProps) {
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
             <CalendarRange className="h-4 w-4" />
-            Layer 5 placeholder (deck)
+            Post-close plan (demo)
           </CardTitle>
           <CardDescription>
             Production would generate a draft action plan from <strong>analyst-validated</strong> findings only.

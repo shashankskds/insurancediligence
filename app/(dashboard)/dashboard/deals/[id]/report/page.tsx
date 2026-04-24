@@ -128,7 +128,7 @@ export default function ReportPage({ params }: PageProps) {
         })
       } else {
         toast.message('PowerPoint not generated in demo', {
-          description: 'Slide export can be added later; deck narrative only.',
+          description: 'Presentation export is not wired in this build.',
         })
       }
     } catch {

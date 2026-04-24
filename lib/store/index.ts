@@ -19,10 +19,6 @@ interface AppState {
   findings: Finding[]
   drlItems: DRLItem[]
   activityLogs: ActivityLog[]
-
-  /** Demo UI: “training mode” called out in Workbench v0.2 (E6) — no backend behavior */
-  demoTrainingMode: boolean
-  setDemoTrainingMode: (value: boolean) => void
   
   // Auth actions
   login: (email: string, password: string) => User | null
@@ -89,9 +85,6 @@ export const useAppStore = create<AppState>()(
       findings: [],
       drlItems: [],
       activityLogs: [],
-      demoTrainingMode: false,
-
-      setDemoTrainingMode: (value) => set({ demoTrainingMode: value }),
       
       // Auth
       login: (email, password) => {
@@ -303,12 +296,11 @@ export const useAppStore = create<AppState>()(
           findings: [],
           drlItems: [],
           activityLogs: [],
-          demoTrainingMode: false,
         })
       },
     }),
     {
-      name: 'hauser-dd-store-v3',
+      name: 'hauser-dd-store-v4',
       partialize: (state) => ({
         currentUser: state.currentUser,
         deals: state.deals,
@@ -317,7 +309,6 @@ export const useAppStore = create<AppState>()(
         findings: state.findings,
         drlItems: state.drlItems,
         activityLogs: state.activityLogs,
-        demoTrainingMode: state.demoTrainingMode,
       }),
     }
   )

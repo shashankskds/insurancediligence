@@ -54,7 +54,7 @@ export default function RulesTracePage({ params }: PageProps) {
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-2xl font-bold">Rule firing trace</h2>
-            <Badge variant="outline">E8 demo</Badge>
+            <Badge variant="outline">Demo</Badge>
           </div>
           <p className="text-muted-foreground">{deal.name}</p>
         </div>
@@ -67,8 +67,8 @@ export default function RulesTracePage({ params }: PageProps) {
             Deterministic rule events (illustrative)
           </CardTitle>
           <CardDescription>
-            Deck epic E8: rule ID, framework, document, passage excerpt, confidence, severity. Rows below are
-            derived from current findings for this deal, plus a placeholder when none exist.
+            Columns: rule ID, framework, document, passage excerpt, confidence, severity. Rows are derived from
+            current findings for this deal, plus a placeholder when none exist.
           </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
