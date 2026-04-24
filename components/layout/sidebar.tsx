@@ -10,7 +10,6 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -28,7 +27,6 @@ import {
 const mainNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/dashboard/deals', label: 'Deals', icon: FolderKanban },
-  { href: '/dashboard/workbench-demo', label: 'Workbench demo', icon: Sparkles },
 ]
 
 const adminNavItems = [

@@ -10,7 +10,6 @@ import {
   ArrowRight,
   FileWarning,
   Plus,
-  Sparkles,
 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -142,40 +141,6 @@ export default function DashboardPage() {
             <p className="text-xs text-muted-foreground">
               {criticalFindings.length} critical/high priority
             </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <Card className="border-primary/20 bg-primary/5">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" />
-              AI diligence workbench (demo)
-            </CardTitle>
-            <CardDescription>
-              Walkthrough hub: checkpoints, benchmark stubs, and links to deal-level rule trace and First 100 days.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild>
-              <Link href="/dashboard/workbench-demo" className="gap-2">
-                Open workbench demo
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">EB benchmarks (demo)</CardTitle>
-            <CardDescription>Labels only; no live Mercer / KFF / CMS feeds in this build.</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
-            <Badge variant="secondary">Mercer 2024</Badge>
-            <Badge variant="secondary">KFF 2024</Badge>
-            <Badge variant="secondary">CMS AV</Badge>
-            <Badge variant="outline">PEPY / PEPM vs peers</Badge>
           </CardContent>
         </Card>
       </div>
