@@ -77,7 +77,7 @@ export default function LoginPage() {
             </div>
             <div>
               <span className="text-xl font-semibold tracking-tight">Hauser</span>
-              <p className="text-xs text-sidebar-foreground/60 uppercase tracking-widest">Insurance diligence</p>
+              <p className="text-xs text-sidebar-foreground/60 uppercase tracking-widest">M&A Insurance Due Diligence</p>
             </div>
           </div>
         </div>
@@ -87,8 +87,8 @@ export default function LoginPage() {
             Private diligence workspace
           </h1>
           <p className="text-sm text-sidebar-foreground/75 leading-relaxed">
-            Document intake, DRL tracking, AI-assisted extraction, and reviewer workflows for insurance
-            transactions. Authorized Hauser personnel only.
+            Document intake, DRL tracking, AI-assisted extraction, and reviewer workflows for M&A insurance due
+            diligence. Authorized Hauser personnel only.
           </p>
           <ul className="text-sm text-sidebar-foreground/70 space-y-2 list-disc pl-5">
             <li>Role-based access aligned to your engagement</li>
@@ -110,7 +110,7 @@ export default function LoginPage() {
               <Building2 className="h-6 w-6 text-primary-foreground" />
             </div>
             <span className="text-xl font-semibold tracking-tight">Hauser</span>
-            <span className="text-xs text-muted-foreground uppercase tracking-widest">Insurance diligence</span>
+            <span className="text-xs text-muted-foreground uppercase tracking-widest">M&A Insurance Due Diligence</span>
           </div>
 
           <Card className="border-border shadow-sm">
